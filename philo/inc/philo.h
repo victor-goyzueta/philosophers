@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 10:29:47 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/21 15:42:28 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/21 22:50:14 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@
 # define THINK		BLUE "%lld %d is thinking\n" WHITE
 # define DEAD		RED "%lld %d died\n" WHITE
 
+# define USAGE \
+	"Usage: ./philo <num_philos> <time_to_die> <time_to_eat> " \
+	"<time_to_sleep> [meals_required]\n"
 # define ERROR1		"Error: Invalid number of arguments\n"
 # define ERROR2		"Error: Arguments must be positive intergers\n"
 

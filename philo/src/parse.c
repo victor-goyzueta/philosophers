@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 15:41:17 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/21 15:56:27 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/21 22:44:15 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	parse_args(int argc, char **argv)
 {
 	int	i;
 
-	if (argc != 4 || argc != 5)
+	if (argc != 5 || argc != 6)
 	{
 		write(STDERR_FILENO, ERROR1, 36);
 		exit(EXIT_FAILURE);
