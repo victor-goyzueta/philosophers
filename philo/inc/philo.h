@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 10:29:47 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/21 22:50:14 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/22 18:00:55 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@
 # define RED		"\001\033[0;31m\002"
 # define WHITE		"\001\033[0m\002"
 
-# define FORK		ORANGE "%lld %d has taken a fork\n" WHITE
-# define EAT		YELLOW "%lld %d is eating\n" WHITE
-# define SLEEP		PURPLE "%lld %d is sleeping\n" WHITE
-# define THINK		BLUE "%lld %d is thinking\n" WHITE
-# define DEAD		RED "%lld %d died\n" WHITE
+# define FORK		"%lld %d has taken a fork\n"
+# define EAT		"%lld %d is eating\n"
+# define SLEEP		"%lld %d is sleeping\n"
+# define THINK		"%lld %d is thinking\n"
+# define DEAD		"%lld %d died\n"
 
 # define USAGE \
 	"Usage: ./philo <num_philos> <time_to_die> <time_to_eat> " \
@@ -51,5 +51,15 @@ typedef enum e_action
 }	t_action;
 
 void	parse_args(int argc, char **argv);
+
+/*write_utils*/
+void	w_action(t_action action, long long time, int id);
+
+/*ft_utils*/
+size_t	ft_strlen(char *str);
+long	ft_atol(const char *str);
+void	ft_bzero(void *s, size_t n);
+void	*ft_calloc(size_t num, size_t size);
+char	*ft_strjoin(char const *s1, char const *s2);
 
 #endif
