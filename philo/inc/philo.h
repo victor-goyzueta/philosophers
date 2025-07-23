@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 10:29:47 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/23 13:20:53 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/23 14:48:52 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,24 @@ typedef enum e_action
 	A_THINK,
 	A_DEAD,
 }	t_action;
+
+typedef struct s_philo
+{
+	/* data */
+}	t_philo;
+
+typedef struct info
+{
+	/* data */
+}	t_info;
+
+
+typedef struct s_data
+{
+	t_philo	*philo;
+	t_info	*info;
+}	t_data;
+
 
 void	parse_args(int argc, char **argv);
 
