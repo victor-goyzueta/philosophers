@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 10:29:47 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/23 15:52:40 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/23 16:13:14 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,23 +47,30 @@ typedef enum e_action
 	A_DEAD,
 }	t_action;
 
-typedef struct s_philo
-{
-	/* data */
-}	t_philo;
-
 typedef struct info
 {
-	/* data */
+	int				num_philos;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				meals_required;
+	int				dead;
+	long long		start_time;
+	pthread_mutex_t	print_lock;
+	pthread_mutex_t	death_lock;
+	pthread_mutex_t	*forks;
 }	t_info;
 
-
-typedef struct s_data
+typedef struct s_philo
 {
-	t_philo	*philo;
-	t_info	*info;
-}	t_data;
-
+	int				id;
+	int				meals_eaten;
+	long long		last_meal_time;
+	pthread_t		thread;
+	pthread_mutex_t	*l_fork;
+	pthread_mutex_t	*r_fork;
+	t_info			*info;
+}	t_philo;
 
 void	parse_args(int argc, char **argv);
 
