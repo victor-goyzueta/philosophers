@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 10:29:47 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/23 16:13:14 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/23 17:35:38 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ typedef enum e_action
 typedef struct info
 {
 	int				num_philos;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				meals_required;
+	int				ms_to_die;
+	int				ms_to_eat;
+	int				ms_to_sleep;
+	int				meals_req;
 	int				dead;
 	long long		start_time;
 	pthread_mutex_t	print_lock;
@@ -72,16 +72,22 @@ typedef struct s_philo
 	t_info			*info;
 }	t_philo;
 
-void	parse_args(int argc, char **argv);
+/*main*/
+void		parse_args(int argc, char **argv);
+void		init_info(t_info *info, char **argv);
+void		init_philo(t_philo *philo, t_info *info);
 
 /*write_utils*/
-void	w_action(t_action action, long long time, int id);
+void		w_action(t_action action, long long tv, int id);
+
+/*utils*/
+long long	get_time_ms(void);
 
 /*ft_utils*/
-size_t	ft_strlen(char *str);
-long	ft_atol(const char *str);
-void	ft_bzero(void *s, size_t n);
-void	*ft_calloc(size_t num, size_t size);
-char	*ft_strjoin(char const *s1, char const *s2);
+size_t		ft_strlen(char *str);
+long		ft_atol(const char *str);
+void		ft_bzero(void *s, size_t n);
+void		*ft_calloc(size_t num, size_t size);
+char		*ft_strjoin(char const *s1, char const *s2);
 
 #endif

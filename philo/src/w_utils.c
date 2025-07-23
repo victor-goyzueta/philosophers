@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 14:49:10 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/23 13:25:34 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/23 16:20:56 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	*get_message(char *color, char *msg)
 	return (message);
 }
 
-void	w_action(t_action action, long long time, int id)
+void	w_action(t_action action, long long tv, int id)
 {
 	char	*message;
 
@@ -52,6 +52,6 @@ void	w_action(t_action action, long long time, int id)
 		message = get_message(RED, DEAD);
 	if (!message)
 		exit(EXIT_FAILURE);
-	printf(message, time, id);
+	printf(message, tv, id);
 	return (free(message));
 }

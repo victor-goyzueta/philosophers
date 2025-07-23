@@ -1,0 +1,88 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/23 16:35:10 by vgoyzuet          #+#    #+#             */
+/*   Updated: 2025/07/23 18:25:34 by vgoyzuet         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "philo.h"
+
+static void	destroy_mutexes(t_info *info, int i)
+{
+	if (!info)
+		return ;
+	pthread_mutex_destroy(&info->print_lock);
+	pthread_mutex_destroy(&info->death_lock);
+	if (i <= 0)
+		return (free(info->forks));
+	while (--i >= 0)
+		pthread_mutex_destroy(&info->forks[i]);
+	free(info->forks);
+}
+
+static int	init_mutexes(t_info *info)
+{
+	int	i;
+	if (!pthread_mutex_init(&info->print_lock, NULL))
+		return (1);
+	if (!pthread_mutex_init(&info->death_lock, NULL))
+	{
+		pthread_mutex_destroy(&info->print_lock);
+		return (1);
+	}
+	info->forks = ft_calloc(info->num_philos, sizeof(pthread_mutex_t));
+	if (info->forks)
+	{
+		pthread_mutex_destroy(&info->print_lock);
+		pthread_mutex_destroy(&info->death_lock);
+		return (1);
+	}
+	i = 0;
+	while (i < info->num_philos)
+	{
+		if (!pthread_mutex_init(&info->forks[i], NULL))
+			return (destroy_mutexes(info, i), 1);
+		i++;
+	}
+	return (0);
+}
+
+void	init_info(t_info *info, char **argv)
+{
+	(*info).num_philos = (int)ft_atol(argv[1]);
+	(*info).ms_to_die = (int)ft_atol(argv[2]);
+	(*info).ms_to_eat = (int)ft_atol(argv[3]);
+	(*info).ms_to_sleep = (int)ft_atol(argv[4]);
+	(*info).meals_req = -1;
+	if (argv[5])
+		(*info).meals_req = (int)ft_atol(argv[5]);
+	(*info).start_time = get_time_ms();
+	if (!init_mutexes(info))
+		exit(EXIT_FAILURE);
+}
+
+void	init_philo(t_philo *philo, t_info *info)
+{
+	int	i;
+
+	if (!philo)
+	{
+		if (info)
+			destroy_mutexes(info, info->num_philos);
+		exit(EXIT_FAILURE);
+	}
+	i = 0;
+	while (i < info->num_philos)
+	{
+		(*philo).info = info;
+		(*philo).id = i + 1;
+		(*philo).meals_eaten = 0;
+		(*philo).last_meal_time = info->start_time;
+		i++;
+	}
+}
