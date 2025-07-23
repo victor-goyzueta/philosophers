@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 10:34:38 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/22 17:48:51 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/23 12:50:45 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	main(int argc, char **argv)
 {
 	struct timeval	tv;
-	
+
 	parse_args(argc, argv);
 	if (gettimeofday(&tv, NULL) != 0)
 		exit(EXIT_FAILURE);

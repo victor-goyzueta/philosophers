@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 14:49:10 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/22 18:15:55 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/23 12:50:52 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static char	*get_message(char *color, char *msg)
 	size_t	len;
 	char	*message;
 
-	len = ft_strlen(color) + ft_strlen(msg) +ft_strlen(WHITE);
+	len = ft_strlen(color) + ft_strlen(msg) + ft_strlen(WHITE);
 	message = ft_calloc(len, sizeof(char));
 	if (!message)
 		return (NULL);
@@ -36,7 +36,7 @@ static char	*get_message(char *color, char *msg)
 void	w_action(t_action action, long long time, int id)
 {
 	char	*message;
-	
+
 	if (action < 0 || action > 4)
 		return ;
 	message = NULL;

@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 10:29:47 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/22 18:00:55 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/23 13:20:53 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,7 @@
 # define THINK		"%lld %d is thinking\n"
 # define DEAD		"%lld %d died\n"
 
-# define USAGE \
-	"Usage: ./philo <num_philos> <time_to_die> <time_to_eat> " \
-	"<time_to_sleep> [meals_required]\n"
-# define ERROR1		"Error: Invalid number of arguments\n"
-# define ERROR2		"Error: Arguments must be positive intergers\n"
+# define ERROR1		"Error: Arguments must be positive intergers\n"
 
 typedef enum e_action
 {
