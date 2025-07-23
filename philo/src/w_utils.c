@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 14:49:10 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/23 12:50:52 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/23 13:25:34 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	w_action(t_action action, long long time, int id)
 		message = get_message(PURPLE, SLEEP);
 	else if (action == A_THINK)
 		message = get_message(BLUE, THINK);
-	else
+	else if (action == A_DEAD)
 		message = get_message(RED, DEAD);
 	if (!message)
 		exit(EXIT_FAILURE);
