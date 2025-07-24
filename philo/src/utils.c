@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:07:01 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/24 05:52:55 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/24 17:15:28 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,17 @@ long long	get_time_ms(void)
 	return ((tv.tv_sec * 1000LL) + (tv.tv_usec / 1000));
 }
 
-void	smart_sleep(long long duration_ms)
+void	smart_action(long long duration_ms, t_philo *philo)
 {
 	long long	start;
 
 	start = get_time_ms();
 	while ((get_time_ms() - start) < duration_ms)
+	{
+		if (!is_simulation_running(philo))
+			break ;
 		usleep(100);
+	}
 }
 
 bool	is_simulation_running(t_philo *philo)
@@ -79,11 +83,8 @@ bool	is_simulation_running(t_philo *philo)
 	bool	running;
 
 	info = philo->info;
-	running = true;
 	pthread_mutex_lock(&info->death_lock);
-	if (info->death
-		|| (info->meals_req != -1 && philo->meals_eaten >= info->meals_req))
-		running = false;
+	running = (info->death == 0);
 	pthread_mutex_unlock(&info->death_lock);
 	return (running);
 }

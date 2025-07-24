@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 16:35:10 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/24 05:53:08 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/24 18:00:45 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	init_info(t_info *info, char **argv)
 		exit(EXIT_FAILURE);
 }
 
-void	init_philo(t_philo *philo, t_info *info)
+void	init_philo(t_philo **philo, t_info *info)
 {
 	int	i;
 
@@ -64,15 +64,21 @@ void	init_philo(t_philo *philo, t_info *info)
 			destroy_mutexes_info(info, info->num_philos);
 		exit(EXIT_FAILURE);
 	}
+	*philo = ft_calloc(info->num_philos, sizeof(t_philo));
+	if (!*philo)
+	{
+		destroy_mutexes_info(info, info->num_philos);
+		exit(EXIT_FAILURE);
+	}
 	i = 0;
 	while (i < info->num_philos)
 	{
-		philo[i].info = info;
-		philo[i].id = i + 1;
-		philo[i].meals_eaten = 0;
-		philo[i].last_meal_time = info->start_time;
-		philo[i].l_fork = &info->forks[i];
-		philo[i].r_fork = &info->forks[(i + 1) % info->num_philos];
+		(*philo)[i].info = info;
+		(*philo)[i].id = i + 1;
+		(*philo)[i].meals_eaten = 0;
+		(*philo)[i].last_meal_time = info->start_time;
+		(*philo)[i].l_fork = &info->forks[i];
+		(*philo)[i].r_fork = &info->forks[(i + 1) % info->num_philos];
 		i++;
 	}
 }

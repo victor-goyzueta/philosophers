@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 21:14:42 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/24 05:52:08 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/24 17:20:00 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	*philo_routine(void *ptr)
 		philo->meals_eaten++;
 		pthread_mutex_unlock(&info->meal_lock);
 
-		smart_sleep(info->ms_to_eat);
+		smart_action(info->ms_to_eat, philo);
 		if (!is_simulation_running(philo))
 			break ;
 
@@ -67,8 +67,7 @@ static void	*philo_routine(void *ptr)
 		pthread_mutex_unlock(second);
 
 		w_action(A_SLEEP, get_time_ms() - info->start_time, philo->id);
-		smart_sleep(info->ms_to_sleep);
-
+		smart_action(info->ms_to_sleep, philo);
 		if (!is_simulation_running(philo))
 			break ;
 
@@ -85,7 +84,7 @@ static bool	check_death(t_philo *philo)
 
 	info = philo->info;
 	now = get_time_ms();
-	pthread_mutex_lock(&info->meal_lock); // 💡 proteger lectura
+	pthread_mutex_lock(&info->meal_lock);
 	last_meal = philo->last_meal_time;
 	pthread_mutex_unlock(&info->meal_lock);
 	if ((now - last_meal) > info->ms_to_die)
@@ -115,16 +114,12 @@ static void	*monitor_routine(void *ptr)
 
 	philo = (t_philo *)ptr;
 	info = philo[0].info;
-
 	while (1)
 	{
 		i = 0;
 		full = 0;
 		while (i < info->num_philos)
 		{
-			if (check_death(&philo[i]))
-				return (NULL);
-
 			pthread_mutex_lock(&info->meal_lock);
 			if (info->meals_req != -1 && philo[i].meals_eaten >= info->meals_req)
 				full++;
@@ -137,6 +132,13 @@ static void	*monitor_routine(void *ptr)
 			info->death = 1;
 			pthread_mutex_unlock(&info->death_lock);
 			return (NULL);
+		}
+		i = 0;
+		while (i < info->num_philos)
+		{
+			if (check_death(&philo[i]))
+				return (NULL);
+			i++;
 		}
 		usleep(1000);
 	}
