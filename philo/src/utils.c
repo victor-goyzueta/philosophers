@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:07:01 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/24 03:01:03 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/24 05:52:55 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,20 @@ void	smart_sleep(long long duration_ms)
 
 	start = get_time_ms();
 	while ((get_time_ms() - start) < duration_ms)
-		usleep(100); 
+		usleep(100);
+}
+
+bool	is_simulation_running(t_philo *philo)
+{
+	t_info	*info;
+	bool	running;
+
+	info = philo->info;
+	running = true;
+	pthread_mutex_lock(&info->death_lock);
+	if (info->death
+		|| (info->meals_req != -1 && philo->meals_eaten >= info->meals_req))
+		running = false;
+	pthread_mutex_unlock(&info->death_lock);
+	return (running);
 }

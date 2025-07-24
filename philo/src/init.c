@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 16:35:10 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/24 04:22:04 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/24 05:53:08 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	init_philo(t_philo *philo, t_info *info)
 		philo[i].meals_eaten = 0;
 		philo[i].last_meal_time = info->start_time;
 		philo[i].l_fork = &info->forks[i];
-		philo[i].r_fork =  &info->forks[(i + 1) % info->num_philos];
+		philo[i].r_fork = &info->forks[(i + 1) % info->num_philos];
 		i++;
 	}
 }

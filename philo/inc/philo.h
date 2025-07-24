@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 10:29:47 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/24 03:02:14 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/24 05:40:24 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void		destroy_mutexes_all(t_philo *philo, t_info *info, int i);
 void		w_action(t_action action, long long tv, int id);;
 long long	get_time_ms(void);
 void		smart_sleep(long long duration_ms);
+bool		is_simulation_running(t_philo *philo);
 
 /*ft_utils*/
 size_t		ft_strlen(char *str);
