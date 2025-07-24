@@ -6,48 +6,37 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 16:35:10 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/23 18:25:34 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/24 03:34:28 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	destroy_mutexes(t_info *info, int i)
-{
-	if (!info)
-		return ;
-	pthread_mutex_destroy(&info->print_lock);
-	pthread_mutex_destroy(&info->death_lock);
-	if (i <= 0)
-		return (free(info->forks));
-	while (--i >= 0)
-		pthread_mutex_destroy(&info->forks[i]);
-	free(info->forks);
-}
-
 static int	init_mutexes(t_info *info)
 {
 	int	i;
-	if (!pthread_mutex_init(&info->print_lock, NULL))
+
+	if (pthread_mutex_init(&info->meal_lock, NULL))
 		return (1);
-	if (!pthread_mutex_init(&info->death_lock, NULL))
+	if (pthread_mutex_init(&info->print_lock, NULL))
 	{
+		pthread_mutex_destroy(&info->meal_lock);
+		return (1);
+	}
+	if (pthread_mutex_init(&info->death_lock, NULL))
+	{
+		pthread_mutex_destroy(&info->meal_lock);
 		pthread_mutex_destroy(&info->print_lock);
 		return (1);
 	}
 	info->forks = ft_calloc(info->num_philos, sizeof(pthread_mutex_t));
-	if (info->forks)
+	if (!info->forks)
+		return (destroy_mutexes_lock(info), 1);
+	i = -1;
+	while (++i < info->num_philos)
 	{
-		pthread_mutex_destroy(&info->print_lock);
-		pthread_mutex_destroy(&info->death_lock);
-		return (1);
-	}
-	i = 0;
-	while (i < info->num_philos)
-	{
-		if (!pthread_mutex_init(&info->forks[i], NULL))
-			return (destroy_mutexes(info, i), 1);
-		i++;
+		if (pthread_mutex_init(&info->forks[i], NULL))
+			return (destroy_mutexes_info(info, i), 1);
 	}
 	return (0);
 }
@@ -62,7 +51,7 @@ void	init_info(t_info *info, char **argv)
 	if (argv[5])
 		(*info).meals_req = (int)ft_atol(argv[5]);
 	(*info).start_time = get_time_ms();
-	if (!init_mutexes(info))
+	if (init_mutexes(info))
 		exit(EXIT_FAILURE);
 }
 
@@ -73,16 +62,18 @@ void	init_philo(t_philo *philo, t_info *info)
 	if (!philo)
 	{
 		if (info)
-			destroy_mutexes(info, info->num_philos);
+			destroy_mutexes_info(info, info->num_philos);
 		exit(EXIT_FAILURE);
 	}
 	i = 0;
 	while (i < info->num_philos)
 	{
-		(*philo).info = info;
-		(*philo).id = i + 1;
-		(*philo).meals_eaten = 0;
-		(*philo).last_meal_time = info->start_time;
+		philo[i].info = info;
+		philo[i].id = i + 1;
+		philo[i].meals_eaten = 0;
+		philo[i].last_meal_time = info->start_time;
+		philo[i].l_fork = &info->forks[i];
+		philo[i].r_fork =  &info->forks[(i + 1) % info->num_philos];
 		i++;
 	}
 }

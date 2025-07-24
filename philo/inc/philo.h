@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 10:29:47 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/23 17:35:38 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/24 03:02:14 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,16 @@ typedef enum e_action
 	A_DEAD,
 }	t_action;
 
-typedef struct info
+typedef struct s_info
 {
 	int				num_philos;
 	int				ms_to_die;
 	int				ms_to_eat;
 	int				ms_to_sleep;
 	int				meals_req;
-	int				dead;
+	int				death;
 	long long		start_time;
+	pthread_mutex_t	meal_lock;
 	pthread_mutex_t	print_lock;
 	pthread_mutex_t	death_lock;
 	pthread_mutex_t	*forks;
@@ -76,12 +77,17 @@ typedef struct s_philo
 void		parse_args(int argc, char **argv);
 void		init_info(t_info *info, char **argv);
 void		init_philo(t_philo *philo, t_info *info);
+void		simulation(t_philo *philo, t_info *info);
 
-/*write_utils*/
-void		w_action(t_action action, long long tv, int id);
+/*destroy*/
+void		destroy_mutexes_lock(t_info *info);
+void		destroy_mutexes_info(t_info *info, int i);
+void		destroy_mutexes_all(t_philo *philo, t_info *info, int i);
 
 /*utils*/
+void		w_action(t_action action, long long tv, int id);;
 long long	get_time_ms(void);
+void		smart_sleep(long long duration_ms);
 
 /*ft_utils*/
 size_t		ft_strlen(char *str);

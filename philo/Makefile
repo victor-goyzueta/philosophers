@@ -10,11 +10,13 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 CFLAGS += -I inc
 
-SRCS = 	src/main.c		\
-		src/init.c		\
-		src/parse.c		\
-		src/w_utils.c	\
-		src/ft_utils.c	\
+SRCS = 	src/main.c			\
+		src/parse.c			\
+		src/init.c			\
+		src/destroy.c		\
+		src/simulation.c	\
+		src/utils.c			\
+		src/ft_utils.c		\
 
 
 OBJS = $(SRCS:%.c=objs/%.o)
