@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 10:29:47 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/24 17:53:00 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/24 20:09:10 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ typedef struct s_info
 	int				ms_to_eat;
 	int				ms_to_sleep;
 	int				meals_req;
-	int				death;
+	bool			death;
+	bool			all_ate;
 	long long		start_time;
 	pthread_mutex_t	meal_lock;
 	pthread_mutex_t	print_lock;
@@ -79,6 +80,9 @@ void		init_info(t_info *info, char **argv);
 void		init_philo(t_philo **philo, t_info *info);
 void		simulation(t_philo *philo, t_info *info);
 
+/*routines*/
+void		*philo_routine(void *ptr);
+
 /*destroy*/
 void		destroy_mutexes_lock(t_info *info);
 void		destroy_mutexes_info(t_info *info, int i);
@@ -87,7 +91,7 @@ void		destroy_mutexes_all(t_philo *philo, t_info *info, int i);
 /*utils*/
 void		w_action(t_action action, long long tv, int id);;
 long long	get_time_ms(void);
-void		smart_action(long long duration_ms, t_philo *philo);
+void		wait_action(long long duration_ms, t_philo *philo);
 bool		is_simulation_running(t_philo *philo);
 
 /*ft_utils*/

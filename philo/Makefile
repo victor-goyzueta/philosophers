@@ -13,8 +13,9 @@ CFLAGS += -I inc
 SRCS = 	src/main.c			\
 		src/parse.c			\
 		src/init.c			\
-		src/destroy.c		\
 		src/simulation.c	\
+		src/philo_routine.c	\
+		src/destroy.c		\
 		src/utils.c			\
 		src/ft_utils.c		\
 

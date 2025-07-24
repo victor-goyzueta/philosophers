@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 16:35:10 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/24 18:00:45 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/24 19:20:45 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	init_info(t_info *info, char **argv)
 	(*info).meals_req = -1;
 	if (argv[5])
 		(*info).meals_req = (int)ft_atol(argv[5]);
+	(*info).death = false;
+	(*info).all_ate = false;
 	if (init_mutexes(info))
 		exit(EXIT_FAILURE);
 }

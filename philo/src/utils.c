@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:07:01 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/24 17:15:28 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/24 20:09:03 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ long long	get_time_ms(void)
 	return ((tv.tv_sec * 1000LL) + (tv.tv_usec / 1000));
 }
 
-void	smart_action(long long duration_ms, t_philo *philo)
+void	wait_action(long long duration_ms, t_philo *philo)
 {
 	long long	start;
 
@@ -84,7 +84,7 @@ bool	is_simulation_running(t_philo *philo)
 
 	info = philo->info;
 	pthread_mutex_lock(&info->death_lock);
-	running = (info->death == 0);
+	running = !(info->death || info->all_ate);
 	pthread_mutex_unlock(&info->death_lock);
 	return (running);
 }

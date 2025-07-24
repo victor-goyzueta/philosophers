@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 10:34:38 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/24 17:49:04 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/24 18:56:57 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,5 @@ int	main(int argc, char **argv)
 	init_info(&info, argv);
 	init_philo(&philo, &info);
 	simulation(philo, &info);
-	free(philo);
 	exit(EXIT_SUCCESS);
 }

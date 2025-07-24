@@ -6,75 +6,11 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 21:14:42 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/24 17:20:00 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/24 20:45:22 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-static void	*philo_routine(void *ptr)
-{
-	t_philo			*philo;
-	t_info			*info;
-	pthread_mutex_t	*first;
-	pthread_mutex_t	*second;
-
-	philo = (t_philo *)ptr;
-	info = philo->info;
-
-	while (get_time_ms() < info->start_time)
-		usleep(100);
-	if (philo->id % 2 == 0)
-	{
-		first = philo->r_fork;
-		second = philo->l_fork;
-	}
-	else
-	{
-		first = philo->l_fork;
-		second = philo->r_fork;
-	}
-	if (info->num_philos == 1)
-	{
-		pthread_mutex_lock(philo->l_fork);
-		w_action(A_FORK, get_time_ms() - info->start_time, philo->id);
-		while (is_simulation_running(philo))
-			usleep(100);
-		pthread_mutex_unlock(philo->l_fork);
-		return (NULL);
-	}
-	while (1)
-	{
-		if (!is_simulation_running(philo))
-			break ;
-
-		pthread_mutex_lock(first);
-		w_action(A_FORK, get_time_ms() - info->start_time, philo->id);
-		pthread_mutex_lock(second);
-		w_action(A_FORK, get_time_ms() - info->start_time, philo->id);
-
-		pthread_mutex_lock(&info->meal_lock);
-		philo->last_meal_time = get_time_ms();
-		w_action(A_EAT, philo->last_meal_time - info->start_time, philo->id);
-		philo->meals_eaten++;
-		pthread_mutex_unlock(&info->meal_lock);
-
-		smart_action(info->ms_to_eat, philo);
-		if (!is_simulation_running(philo))
-			break ;
-
-		pthread_mutex_unlock(first);
-		pthread_mutex_unlock(second);
-
-		w_action(A_SLEEP, get_time_ms() - info->start_time, philo->id);
-		smart_action(info->ms_to_sleep, philo);
-		if (!is_simulation_running(philo))
-			break ;
-
-		w_action(A_THINK, get_time_ms() - info->start_time, philo->id);
-	}
-	return (NULL);
-}
 
 static bool	check_death(t_philo *philo)
 {
@@ -92,7 +28,7 @@ static bool	check_death(t_philo *philo)
 		pthread_mutex_lock(&info->death_lock);
 		if (!info->death)
 		{
-			info->death = 1;
+			info->death = true;
 			pthread_mutex_unlock(&info->death_lock);
 			pthread_mutex_lock(&info->print_lock);
 			w_action(A_DEAD, now - info->start_time, philo->id);
@@ -129,7 +65,7 @@ static void	*monitor_routine(void *ptr)
 		if (info->meals_req != -1 && full == info->num_philos)
 		{
 			pthread_mutex_lock(&info->death_lock);
-			info->death = 1;
+			info->all_ate = true;
 			pthread_mutex_unlock(&info->death_lock);
 			return (NULL);
 		}
@@ -168,5 +104,6 @@ void	simulation(t_philo *philo, t_info *info)
 		i++;
 	}
 	pthread_join(monitor, NULL);
+	free(philo);
 	return ;
 }
