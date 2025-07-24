@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 21:14:42 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/25 00:25:56 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/25 00:45:42 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	simulation(t_philo *philo, t_info *info)
 	i = 0;
 	while (i < info->num_philos)
 	{
-		pthread_detach(philo[i].thread);
+		pthread_join(philo[i].thread, NULL);
 		i++;
 	}
 	pthread_join(monitor, NULL);

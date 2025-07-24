@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 00:02:59 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/25 00:26:11 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/25 00:51:33 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	destroy_mutexes_info(t_info *info, int i)
 void	destroy_mutexes_all(t_philo *philo, t_info *info, int i)
 {
 	while (--i >= 0)
-		pthread_detach(philo[i].thread);
+		pthread_join(philo[i].thread, NULL);
 	destroy_mutexes_info(info, info->num_philos);
 	exit(EXIT_FAILURE);
 }

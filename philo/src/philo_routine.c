@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 19:22:43 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/24 22:58:22 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/25 00:48:36 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,11 @@ void	*philo_routine(void *ptr)
 		pthread_mutex_unlock(&info->meal_lock);
 		wait_action(info->ms_to_eat, philo);
 		
-		if (!is_simulation_running(philo))
-			break ;
 		pthread_mutex_unlock(first);
 		pthread_mutex_unlock(second);
+
+		if (!is_simulation_running(philo))
+			break ;
 
 		/*sleeping*/
 		w_action(A_SLEEP, get_time_ms() - info->start_time, philo->id);
