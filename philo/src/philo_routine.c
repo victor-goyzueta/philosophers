@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 19:22:43 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/24 20:50:24 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/24 22:58:22 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,24 +55,41 @@ void	*philo_routine(void *ptr)
 	{
 		if (!is_simulation_running(philo))
 			break ;
+
+		/*forks*/
 		pthread_mutex_lock(first);
 		w_action(A_FORK, get_time_ms() - info->start_time, philo->id);
 		pthread_mutex_lock(second);
 		w_action(A_FORK, get_time_ms() - info->start_time, philo->id);
+		
+		if (!is_simulation_running(philo))
+		{
+			pthread_mutex_unlock(first);
+			pthread_mutex_unlock(second);
+			break ;
+		}
+
+		/*eating*/
 		pthread_mutex_lock(&info->meal_lock);
 		philo->last_meal_time = get_time_ms();
 		w_action(A_EAT, philo->last_meal_time - info->start_time, philo->id);
 		philo->meals_eaten++;
 		pthread_mutex_unlock(&info->meal_lock);
 		wait_action(info->ms_to_eat, philo);
+		
 		if (!is_simulation_running(philo))
 			break ;
 		pthread_mutex_unlock(first);
 		pthread_mutex_unlock(second);
+
+		/*sleeping*/
 		w_action(A_SLEEP, get_time_ms() - info->start_time, philo->id);
 		wait_action(info->ms_to_sleep, philo);
+		
 		if (!is_simulation_running(philo))
 			break ;
+		
+		/*thinking*/
 		w_action(A_THINK, get_time_ms() - info->start_time, philo->id);
 	}
 	return (NULL);

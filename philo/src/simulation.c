@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 21:14:42 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/24 20:45:22 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/25 00:15:50 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,13 +97,15 @@ void	simulation(t_philo *philo, t_info *info)
 	}
 	if (pthread_create(&monitor, NULL, monitor_routine, philo))
 		destroy_mutexes_all(philo, info, i);
+	pthread_join(monitor, NULL);
+	// destroy_mutexes_all(philo, info, i);
 	i = 0;
 	while (i < info->num_philos)
 	{
-		pthread_join(philo[i].thread, NULL);
+		pthread_detach(philo[i].thread);
 		i++;
 	}
-	pthread_join(monitor, NULL);
 	free(philo);
+	destroy_mutexes_info(info, i);
 	return ;
 }
