@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 19:22:43 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/25 00:48:36 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/25 13:24:50 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	select_forks(t_philo *philo,
 	{
 		*first = philo->r_fork;
 		*second = philo->l_fork;
+		usleep(1000);
 	}
 	else
 	{
@@ -58,10 +59,21 @@ void	*philo_routine(void *ptr)
 
 		/*forks*/
 		pthread_mutex_lock(first);
-		w_action(A_FORK, get_time_ms() - info->start_time, philo->id);
-		pthread_mutex_lock(second);
+		if (!is_simulation_running(philo))
+		{
+			pthread_mutex_unlock(first);
+			break ;
+		}
 		w_action(A_FORK, get_time_ms() - info->start_time, philo->id);
 		
+		pthread_mutex_lock(second);
+		if (!is_simulation_running(philo))
+		{
+			pthread_mutex_unlock(second);
+			break ;
+		}
+		w_action(A_FORK, get_time_ms() - info->start_time, philo->id);
+
 		if (!is_simulation_running(philo))
 		{
 			pthread_mutex_unlock(first);
@@ -72,6 +84,12 @@ void	*philo_routine(void *ptr)
 		/*eating*/
 		pthread_mutex_lock(&info->meal_lock);
 		philo->last_meal_time = get_time_ms();
+
+		if (!is_simulation_running(philo))
+		{
+			pthread_mutex_unlock(&info->meal_lock);
+			break ;
+		}
 		w_action(A_EAT, philo->last_meal_time - info->start_time, philo->id);
 		philo->meals_eaten++;
 		pthread_mutex_unlock(&info->meal_lock);
