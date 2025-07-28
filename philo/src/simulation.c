@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 21:14:42 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/28 13:42:45 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/28 16:48:28 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ static void	*philo_routine(void *ptr)
 	while (is_simulation_running(philo))
 	{
 		if (!grab_forks(philo, info, first, second))
-			break ;
+			return (NULL);
 		if (!eating(philo, info, first, second))
-			break ;
+			return (NULL);
 		if (!sleeping(philo, info))
-			break ;
+			return (NULL);
 		if (!is_simulation_running(philo))
-			break ;
+			return (NULL);
 		w_action(A_THINK, get_time_ms() - info->start_time, philo->id);
 	}
 	return (NULL);
