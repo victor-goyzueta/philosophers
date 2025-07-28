@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 10:29:47 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/28 12:03:49 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/28 13:42:14 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,18 @@ void		init_info(t_info *info, char **argv);
 void		init_philo(t_philo **philo, t_info *info);
 void		simulation(t_philo *philo, t_info *info);
 
-/*routines*/
-void		*philo_routine(void *ptr);
+/*philo_routines*/
+void		select_forks(t_philo *philo,
+				pthread_mutex_t **first, pthread_mutex_t **second, bool par);
+void		*single_philo_case(t_philo *philo, t_info *info);
+
+bool		grab_forks(t_philo *philo, t_info *info,
+				pthread_mutex_t *first, pthread_mutex_t *second);
+
+bool		eating(t_philo *philo, t_info *info,
+				pthread_mutex_t *first, pthread_mutex_t *second);
+
+bool		sleeping(t_philo *philo, t_info *info);
 
 /*destroy*/
 void		destroy_mutexes_lock(t_info *info);

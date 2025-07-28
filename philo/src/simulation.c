@@ -6,11 +6,40 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 21:14:42 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/28 12:25:20 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/28 13:42:45 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+static void	*philo_routine(void *ptr)
+{
+	t_philo			*philo;
+	t_info			*info;
+	pthread_mutex_t	*first;
+	pthread_mutex_t	*second;
+
+	philo = (t_philo *)ptr;
+	info = philo->info;
+	while (get_time_ms() < info->start_time)
+		usleep(100);
+	select_forks(philo, &first, &second, (philo->id % 2 == 0));
+	if (info->num_philos == 1)
+		return (single_philo_case(philo, info));
+	while (is_simulation_running(philo))
+	{
+		if (!grab_forks(philo, info, first, second))
+			break ;
+		if (!eating(philo, info, first, second))
+			break ;
+		if (!sleeping(philo, info))
+			break ;
+		if (!is_simulation_running(philo))
+			break ;
+		w_action(A_THINK, get_time_ms() - info->start_time, philo->id);
+	}
+	return (NULL);
+}
 
 static bool	check_death(t_philo *philo)
 {
