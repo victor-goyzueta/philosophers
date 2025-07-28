@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 21:14:42 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/25 13:19:41 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/28 12:25:20 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,34 +41,43 @@ static bool	check_death(t_philo *philo)
 	return (false);
 }
 
+static bool	check_all_ate(t_philo *philo, t_info *info)
+{
+	int	i;
+	int	full;
+
+	i = 0;
+	full = 0;
+	while (i < info->num_philos)
+	{
+		pthread_mutex_lock(&info->meal_lock);
+		if (info->meals_req != -1 && philo[i].meals_eaten >= info->meals_req)
+			full++;
+		pthread_mutex_unlock(&info->meal_lock);
+		i++;
+	}
+	if (info->meals_req != -1 && full == info->num_philos)
+	{
+		pthread_mutex_lock(&info->death_lock);
+		info->all_ate = true;
+		pthread_mutex_unlock(&info->death_lock);
+		return (true);
+	}
+	return (false);
+}
+
 static void	*monitor_routine(void *ptr)
 {
 	t_philo	*philo;
 	t_info	*info;
 	int		i;
-	int		full;
 
 	philo = (t_philo *)ptr;
 	info = philo[0].info;
 	while (1)
 	{
-		i = 0;
-		full = 0;
-		while (i < info->num_philos)
-		{
-			pthread_mutex_lock(&info->meal_lock);
-			if (info->meals_req != -1 && philo[i].meals_eaten >= info->meals_req)
-				full++;
-			pthread_mutex_unlock(&info->meal_lock);
-			i++;
-		}
-		if (info->meals_req != -1 && full == info->num_philos)
-		{
-			pthread_mutex_lock(&info->death_lock);
-			info->all_ate = true;
-			pthread_mutex_unlock(&info->death_lock);
+		if (check_all_ate(philo, info))
 			return (NULL);
-		}
 		i = 0;
 		while (i < info->num_philos)
 		{

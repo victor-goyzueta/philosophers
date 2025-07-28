@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 16:35:10 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/24 19:20:45 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/28 12:06:49 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,12 @@ static int	init_mutexes(t_info *info)
 void	init_info(t_info *info, char **argv)
 {
 	(*info).num_philos = (int)ft_atol(argv[1]);
+	if ((*info).num_philos > PHILO_MAX)
+	{
+		write(STDERR_FILENO,
+			"Error: The number of philosophers should not exceed 200\n", 57);
+		exit(EXIT_FAILURE);
+	}
 	(*info).ms_to_die = (int)ft_atol(argv[2]);
 	(*info).ms_to_eat = (int)ft_atol(argv[3]);
 	(*info).ms_to_sleep = (int)ft_atol(argv[4]);
@@ -78,7 +84,6 @@ void	init_philo(t_philo **philo, t_info *info)
 		(*philo)[i].info = info;
 		(*philo)[i].id = i + 1;
 		(*philo)[i].meals_eaten = 0;
-		(*philo)[i].last_meal_time = info->start_time;
 		(*philo)[i].l_fork = &info->forks[i];
 		(*philo)[i].r_fork = &info->forks[(i + 1) % info->num_philos];
 		i++;

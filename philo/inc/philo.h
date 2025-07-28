@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 10:29:47 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/24 20:09:10 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/28 12:03:49 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@
 # define DEAD		"%lld %d died\n"
 
 # define ERROR1		"Error: Arguments must be positive intergers\n"
+
+# define PHILO_MAX	200
 
 typedef enum e_action
 {
