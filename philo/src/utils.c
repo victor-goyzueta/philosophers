@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:07:01 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/28 18:06:13 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/28 18:19:26 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	print_action(t_action action, long long tv, int id)
 	if (action == A_FORK)
 		message = get_message(ORANGE, FORK);
 	else if (action == A_EAT)
-		message = get_message(YELLOW, EAT);
+		message = get_message(GREEN, EAT);
 	else if (action == A_SLEEP)
 		message = get_message(PURPLE, SLEEP);
 	else if (action == A_THINK)

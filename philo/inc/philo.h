@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 10:29:47 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/28 18:04:08 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/28 18:18:57 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@
 # include <pthread.h>
 
 # define ORANGE		"\001\033[1;33m\002"
-# define YELLOW		"\001\033[0;33m\002"
-# define PURPLE		"\001\033[0;35m\002"
-# define BLUE		"\001\033[0;34m\002"
-# define RED		"\001\033[0;31m\002"
+# define GREEN		"\001\033[1;32m\002"
+# define PURPLE		"\001\033[1;35m\002"
+# define BLUE		"\001\033[1;34m\002"
+# define RED		"\001\033[1;31m\002"
 # define WHITE		"\001\033[0m\002"
 
 # define FORK		"%lld %d has taken a fork\n"
