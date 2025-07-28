@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 21:14:42 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/28 16:48:28 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/28 18:06:32 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	*philo_routine(void *ptr)
 			return (NULL);
 		if (!is_simulation_running(philo))
 			return (NULL);
-		w_action(A_THINK, get_time_ms() - info->start_time, philo->id);
+		print_action(A_THINK, get_time_ms() - info->start_time, philo->id);
 	}
 	return (NULL);
 }
@@ -60,7 +60,7 @@ static bool	check_death(t_philo *philo)
 			info->death = true;
 			pthread_mutex_unlock(&info->death_lock);
 			pthread_mutex_lock(&info->print_lock);
-			w_action(A_DEAD, now - info->start_time, philo->id);
+			print_action(A_DEAD, now - info->start_time, philo->id);
 			pthread_mutex_unlock(&info->print_lock);
 		}
 		else

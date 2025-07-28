@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:07:01 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/25 00:01:35 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/28 18:06:13 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	*get_message(char *color, char *msg)
 	return (message);
 }
 
-void	w_action(t_action action, long long tv, int id)
+void	print_action(t_action action, long long tv, int id)
 {
 	char	*message;
 
