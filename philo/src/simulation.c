@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 21:14:42 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/28 18:06:32 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/29 15:59:12 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	*philo_routine(void *ptr)
 
 	philo = (t_philo *)ptr;
 	info = philo->info;
-	while (get_time_ms() < info->start_time)
+	while (get_time_ms() < info->start)
 		usleep(100);
 	select_forks(philo, &first, &second, (philo->id % 2 == 0));
 	if (info->num_philos == 1)
@@ -36,7 +36,7 @@ static void	*philo_routine(void *ptr)
 			return (NULL);
 		if (!is_simulation_running(philo))
 			return (NULL);
-		print_action(A_THINK, get_time_ms() - info->start_time, philo->id);
+		print_action(A_THINK, get_time_ms() - info->start, philo->id, info);
 	}
 	return (NULL);
 }
@@ -59,9 +59,7 @@ static bool	check_death(t_philo *philo)
 		{
 			info->death = true;
 			pthread_mutex_unlock(&info->death_lock);
-			pthread_mutex_lock(&info->print_lock);
-			print_action(A_DEAD, now - info->start_time, philo->id);
-			pthread_mutex_unlock(&info->print_lock);
+			print_action(A_DEAD, now - info->start, philo->id, info);
 		}
 		else
 			pthread_mutex_unlock(&info->death_lock);
@@ -125,10 +123,10 @@ void	simulation(t_philo *philo, t_info *info)
 	pthread_t	monitor;
 
 	i = 0;
-	(*info).start_time = get_time_ms();
+	(*info).start = get_time_ms();
 	while (i < info->num_philos)
 	{
-		philo[i].last_meal_time = info->start_time;
+		philo[i].last_meal_time = info->start;
 		if (pthread_create(&philo[i].thread, NULL, philo_routine, &philo[i]))
 			destroy_mutexes_all(philo, info, i);
 		i++;

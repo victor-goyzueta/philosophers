@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 10:29:47 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/28 18:18:57 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/29 15:57:16 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ typedef struct s_info
 	int				meals_req;
 	bool			death;
 	bool			all_ate;
-	long long		start_time;
+	long long		start;
 	pthread_mutex_t	meal_lock;
 	pthread_mutex_t	print_lock;
 	pthread_mutex_t	death_lock;
@@ -101,7 +101,7 @@ void		destroy_mutexes_info(t_info *info, int i);
 void		destroy_mutexes_all(t_philo *philo, t_info *info, int i);
 
 /*utils*/
-void		print_action(t_action action, long long tv, int id);
+void		print_action(t_action action, long long tv, int id, t_info *info);
 long long	get_time_ms(void);
 void		wait_action(long long duration_ms, t_philo *philo);
 bool		is_simulation_running(t_philo *philo);

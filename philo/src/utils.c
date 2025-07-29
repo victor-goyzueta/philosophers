@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:07:01 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/28 18:19:26 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/29 15:45:11 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	*get_message(char *color, char *msg)
 	return (message);
 }
 
-void	print_action(t_action action, long long tv, int id)
+void	print_action(t_action action, long long tv, int id, t_info *info)
 {
 	char	*message;
 
@@ -52,7 +52,9 @@ void	print_action(t_action action, long long tv, int id)
 		message = get_message(RED, DEAD);
 	if (!message)
 		exit(EXIT_FAILURE);
+	pthread_mutex_lock(&info->print_lock);
 	printf(message, tv, id);
+	pthread_mutex_unlock(&info->print_lock);
 	return (free(message));
 }
 

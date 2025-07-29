@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 19:22:43 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/28 18:05:56 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/29 15:58:55 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	select_forks(t_philo *philo,
 void	*single_philo_case(t_philo *philo, t_info *info)
 {
 	pthread_mutex_lock(philo->l_fork);
-	print_action(A_FORK, get_time_ms() - info->start_time, philo->id);
+	print_action(A_FORK, get_time_ms() - info->start, philo->id, info);
 	while (is_simulation_running(philo))
 		usleep(100);
 	pthread_mutex_unlock(philo->l_fork);
@@ -47,7 +47,7 @@ bool	grab_forks(t_philo *philo, t_info *info,
 		pthread_mutex_unlock(first);
 		return (false);
 	}
-	print_action(A_FORK, get_time_ms() - info->start_time, philo->id);
+	print_action(A_FORK, get_time_ms() - info->start, philo->id, info);
 	pthread_mutex_lock(second);
 	if (!is_simulation_running(philo))
 	{
@@ -55,7 +55,7 @@ bool	grab_forks(t_philo *philo, t_info *info,
 		pthread_mutex_unlock(second);
 		return (false);
 	}
-	print_action(A_FORK, get_time_ms() - info->start_time, philo->id);
+	print_action(A_FORK, get_time_ms() - info->start, philo->id, info);
 	if (!is_simulation_running(philo))
 	{
 		pthread_mutex_unlock(first);
@@ -77,7 +77,7 @@ bool	eating(t_philo *philo, t_info *info,
 		pthread_mutex_unlock(&info->meal_lock);
 		return (false);
 	}
-	print_action(A_EAT, philo->last_meal_time - info->start_time, philo->id);
+	print_action(A_EAT, philo->last_meal_time - info->start, philo->id, info);
 	philo->meals_eaten++;
 	pthread_mutex_unlock(&info->meal_lock);
 	wait_action(info->ms_to_eat, philo);
@@ -90,7 +90,7 @@ bool	sleeping(t_philo *philo, t_info *info)
 {
 	if (!is_simulation_running(philo))
 		return (false);
-	print_action(A_SLEEP, get_time_ms() - info->start_time, philo->id);
+	print_action(A_SLEEP, get_time_ms() - info->start, philo->id, info);
 	wait_action(info->ms_to_sleep, philo);
 	return (true);
 }
