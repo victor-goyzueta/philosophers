@@ -6,7 +6,7 @@
 /*   By: vgoyzuet <vgoyzuet@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 00:02:59 by vgoyzuet          #+#    #+#             */
-/*   Updated: 2025/07/25 00:51:33 by vgoyzuet         ###   ########.fr       */
+/*   Updated: 2025/07/30 12:29:01 by vgoyzuet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ void	destroy_mutexes_info(t_info *info, int i)
 {
 	if (!info)
 		return ;
-	pthread_mutex_destroy(&info->print_lock);
-	pthread_mutex_destroy(&info->death_lock);
+	destroy_mutexes_lock(info);
 	if (i <= 0)
 		return (free(info->forks));
 	while (--i >= 0)
